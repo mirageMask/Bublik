@@ -3,30 +3,18 @@ using System;
 
 public class Player : KinematicBody2D
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    const int maxJumpHeight = 64 * 12 * 3;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    public Vector2 gravityPerFrame = vector(.0f,10.0f);
+    public Vector2 velocityPerFrame = new Vector2();
+    public override void _PhysicsProcess(float delta)
     {
-        GD.Print("asas");
+
+        
+        velocityPerFrame = MoveAndSlide(velocityPerFrame - gravityPerFrame, Vector2.Up);
     }
 
-
-
-    const int maxJumpHeight = 64*12*3;
-
-    public override void _PhysicsProcess(float delta){
-
-
-        MoveAndSlide(maxJumpHeight,Vector2.Up);
+    static Vector2 vector(float x,float y){
+        return new Vector2(x,-y);
     }
-    
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }
