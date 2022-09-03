@@ -50,8 +50,8 @@ func anim():
 		animPlayer.play("jump" if vect.y<0 else "fall")
 		return
 
-	if vect.x == 0:
-		animPlayer.play("idle")
+	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
+		animPlayer.play("walk")
 		return
 	
-	animPlayer.play("walk")
+	animPlayer.play("idle")
