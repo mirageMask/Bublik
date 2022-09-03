@@ -190,14 +190,14 @@ tracks/1/keys = {
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2( 1, 0.8 )
+polygon = PoolVector2Array( -3, -7.5, -3, -1.25, -3, 1.25, -3, 5, -2, 6.25, 2, 6.25, 3, 5, 3, -7.5 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -1 )
 frames = SubResource( 35 )
 animation = "idle"
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-scale = Vector2( 1, 0.8 )
-polygon = PoolVector2Array( -3, -7.5, -3, -1.25, -3, 1.25, -3, 5, -2, 6.25, 2, 6.25, 3, 5, 3, -7.5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fall = SubResource( 37 )
