@@ -27,10 +27,12 @@ margin_bottom = 80.0
 texture = ExtResource( 2 )
 
 [node name="Lives" type="Label" parent="Lives_counter"]
+light_mask = 0
 margin_left = 17.0
 margin_top = 66.0
 margin_right = 57.0
 margin_bottom = 80.0
+text = "-"
 script = ExtResource( 4 )
 
 [connection signal="lives_count" from="Player" to="Lives_counter/Lives" method="_on_Player_lives_count"]
