@@ -56,17 +56,10 @@ func anim():
 	elif Input.is_action_pressed("ui_right") : $AnimatedSprite.flip_h = false
 	elif Input.is_action_pressed("ui_left")  : $AnimatedSprite.flip_h = true
 
-	if Input.is_action_pressed("jump"):
+	if Input.is_action_pressed("jump") or !is_on_floor():
 		animPlayer.play("jump" if vect.y<0 else "fall")
 		return
 
-	if vect.x == 0:
-		animPlayer.play("idle")
+	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
+		animPlayer.play("walk")
 		return
-	
-<<<<<<< Updated upstream
-	animPlayer.play("walk")
-=======
-	animPlayer.play("idle")
-
->>>>>>> Stashed changes
