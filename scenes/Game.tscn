@@ -9,6 +9,10 @@
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 86, 133 )
+movement_speed = null
+jump_height_in_bodies = null
+jump_duration = null
+lives = null
 
 [node name="Floor" parent="." instance=ExtResource( 3 )]
 position = Vector2( 104, 212 )
