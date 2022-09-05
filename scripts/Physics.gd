@@ -63,4 +63,5 @@ func anim():
 	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
 		animPlayer.play("walk")
 		return
+	
 	animPlayer.play("idle")
