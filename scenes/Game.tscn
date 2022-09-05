@@ -1,30 +1,29 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://sprites/lives.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Spike.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Floor.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Lives.gd" type="Script" id=4]
+[ext_resource path="res://scripts/Lives.gd" type="Script" id=4]
 
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 86, 133 )
 
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+drag_margin_v_enabled = true
+
 [node name="Floor" parent="." instance=ExtResource( 3 )]
 position = Vector2( 104, 212 )
+
+[node name="Spike" parent="." instance=ExtResource( 2 )]
 
 [node name="Lives_counter" type="Control" parent="."]
 margin_left = 13.0
 margin_top = 23.0
 margin_right = 53.0
 margin_bottom = 63.0
-
-[node name="TextureRect" type="TextureRect" parent="Lives_counter"]
-margin_left = 2.0
-margin_top = 64.0
-margin_right = 18.0
-margin_bottom = 80.0
-texture = ExtResource( 2 )
 
 [node name="Lives" type="Label" parent="Lives_counter"]
 margin_left = 17.0

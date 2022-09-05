@@ -20,7 +20,11 @@ var gravity:Vector2 = Vector2(.0, jump_max_height / FPS / jump_duration)
 
 var vect:=Vector2.ZERO
 
-func _physics_process(delta):
+
+func _ready():
+	Signals.connect("spiked",self,"_on_splike_hit")
+
+func _physics_process(_delta):
 	anim()
 	physics()
 
@@ -47,7 +51,6 @@ func physics():
 		
 	
 	vect = move_and_slide(vect + gravity, Vector2.UP)
-var a = 1
 #==========================
 func anim():
 
@@ -65,3 +68,12 @@ func anim():
 		return
 	
 	animPlayer.play("idle")
+
+
+
+func _on_splike_hit(body:Node):
+	if body == self:
+		set_physics_process(false)
+		animPlayer.play("death")
+		yield(get_tree().create_timer(1.0), "timeout")
+		# queue_free()

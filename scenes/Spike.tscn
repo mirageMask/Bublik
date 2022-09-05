@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://sprites/Spike.png" type="Texture" id=1]
+[ext_resource path="res://scripts/Spike.gd" type="Script" id=2]
+
+[node name="Spike" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 110, 138 )
+polygon = PoolVector2Array( 0, -1, 0, -1, -5, 10, 6, 10, 1, -1 )
+
+[node name="TextureRect" type="TextureRect" parent="CollisionPolygon2D"]
+margin_left = -7.0
+margin_top = -5.0
+margin_right = 9.0
+margin_bottom = 11.0
+texture = ExtResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_Spike_body_entered"]
