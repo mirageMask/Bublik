@@ -12,6 +12,8 @@ export var jump_height_in_bodies:=3
 export var jump_duration:=.3
 export var lives:=3
 
+var start_position 
+
 signal lives_count(lives)
 
 var jump_max_height:float = PX_HEIGHT * jump_height_in_bodies / jump_duration
@@ -22,6 +24,7 @@ var vect:=Vector2.ZERO
 
 
 func _ready():
+	start_position = position
 	Signals.connect("spiked",self,"_on_splike_hit")
 
 func _physics_process(_delta):
@@ -73,7 +76,18 @@ func anim():
 
 func _on_splike_hit(body:Node):
 	if body == self:
-		set_physics_process(false)
-		animPlayer.play("death")
-		yield(get_tree().create_timer(1.0), "timeout")
-		# queue_free()
+		if lives > 0:
+			lives-=1
+			lives_report()
+			set_physics_process(false)
+			animPlayer.play("death")
+			yield(get_tree().create_timer(1.0), "timeout")
+			set_physics_process((true))
+			position = start_position
+			# queue_free()
+		elif lives == 0:
+			set_physics_process(false)
+			animPlayer.play("death")
+			yield(get_tree().create_timer(1.0), "timeout")
+			get_tree().reload_current_scene()
+
