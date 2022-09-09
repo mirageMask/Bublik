@@ -24,6 +24,7 @@ var vect:=Vector2.ZERO
 
 
 func _ready():
+	set_physics_process(false)
 	start_position = position
 	Signals.connect("spiked",self,"_on_splike_hit")
 
@@ -91,3 +92,7 @@ func _on_splike_hit(body:Node):
 			yield(get_tree().create_timer(1.0), "timeout")
 			get_tree().reload_current_scene()
 
+
+
+func _on_Button_pressed():
+	set_physics_process(true)

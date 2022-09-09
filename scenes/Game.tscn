@@ -1,43 +1,66 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Spike.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Floor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/Lives.gd" type="Script" id=4]
 [ext_resource path="res://sprites/lives.png" type="Texture" id=5]
+[ext_resource path="res://fonts/DeterminationSansWebRegular-369X.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://scripts/start_button.gd" type="Script" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 6 )
 
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 86, 133 )
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-drag_margin_v_enabled = true
+position = Vector2( 75, 143 )
 
 [node name="Floor" parent="." instance=ExtResource( 3 )]
 position = Vector2( 104, 212 )
 
 [node name="Spike" parent="." instance=ExtResource( 2 )]
 
-[node name="Lives_counter" type="Control" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Node2D"]
+position = Vector2( 75, 143 )
+current = true
+drag_margin_v_enabled = true
+
+[node name="Button" type="Button" parent="Node2D"]
+margin_left = 54.0
+margin_top = 67.0
+margin_right = 101.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 1 )
+text = "START"
+script = ExtResource( 7 )
+
+[node name="Lives_counter" type="Control" parent="Node2D"]
 margin_left = 13.0
 margin_top = 23.0
 margin_right = 53.0
 margin_bottom = 63.0
 
-[node name="Lives" type="Label" parent="Lives_counter"]
-margin_left = 25.0
-margin_top = 73.0
-margin_right = 65.0
-margin_bottom = 87.0
+[node name="Lives" type="Label" parent="Node2D/Lives_counter"]
+margin_top = 47.0
+margin_right = 40.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 2 )
+text = " "
 script = ExtResource( 4 )
 
-[node name="TextureRect" type="TextureRect" parent="Lives_counter/Lives"]
-margin_left = -13.0
-margin_top = -2.0
-margin_right = 3.0
-margin_bottom = 14.0
+[node name="TextureRect" type="TextureRect" parent="Node2D/Lives_counter/Lives"]
+margin_left = -14.0
+margin_top = 1.0
+margin_right = 2.0
+margin_bottom = 17.0
 texture = ExtResource( 5 )
 
-[connection signal="lives_count" from="Player" to="Lives_counter/Lives" method="_on_Player_lives_count"]
+[connection signal="lives_count" from="Player" to="Node2D/Lives_counter/Lives" method="_on_Player_lives_count"]
+[connection signal="pressed" from="Node2D/Button" to="Player" method="_on_Button_pressed"]
+[connection signal="pressed" from="Node2D/Button" to="Node2D/Button" method="_on_Button_pressed"]
