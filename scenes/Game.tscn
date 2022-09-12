@@ -19,17 +19,17 @@ font_data = ExtResource( 6 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 75, 143 )
 
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+
 [node name="Floor" parent="." instance=ExtResource( 3 )]
 position = Vector2( 104, 212 )
 
 [node name="Spike" parent="." instance=ExtResource( 2 )]
 
 [node name="Node2D" type="Node2D" parent="."]
-
-[node name="Camera2D" type="Camera2D" parent="Node2D"]
-position = Vector2( 75, 143 )
-current = true
-drag_margin_v_enabled = true
 
 [node name="Button" type="Button" parent="Node2D"]
 margin_left = 54.0
