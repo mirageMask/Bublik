@@ -2,4 +2,6 @@ extends Node
 
 
 
-signal spiked(body)
+signal damaged(body)
+signal game_started()
+signal lives_count(lives)

@@ -12,9 +12,7 @@ export var jump_height_in_bodies:=3
 export var jump_duration:=.3
 export var lives:=3
 
-var start_position 
-
-signal lives_count(lives)
+var start_position:Vector2
 
 var jump_max_height:float = PX_HEIGHT * jump_height_in_bodies / jump_duration
 
@@ -26,32 +24,30 @@ var vect:=Vector2.ZERO
 func _ready():
 	set_physics_process(false)
 	start_position = position
-	Signals.connect("spiked",self,"_on_splike_hit")
+	Signals.connect("damaged",self,"_on_splike_hit")
+	Signals.connect("game_started",self,'start_game')
 
 func _physics_process(_delta):
 	anim()
 	physics()
 
 #==========================
-var x_vector_state :bool= 1
+var x_vector_state :int= 1
 
 func lives_report():
-	emit_signal("lives_count", lives)
+	Signals.emit_signal("lives_count", lives)
 
 func physics():
-	lives_report()
-	vect.x = 0
-			
 	if Input.is_action_pressed("jump") and is_on_floor():
 		vect.y -= jump_max_height
 		
 	if Input.is_action_just_pressed("ui_right") : x_vector_state = 1
-	if Input.is_action_just_pressed("ui_left")  : x_vector_state = 0
+	elif Input.is_action_just_pressed("ui_left")  : x_vector_state = -1
+	var direction := int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left"))
 
 	if Input.is_action_pressed("ui_right") and Input.is_action_pressed("ui_left"):
-		vect.x = movement_speed if x_vector_state else -movement_speed
-	elif Input.is_action_pressed("ui_right") : vect.x = movement_speed
-	elif Input.is_action_pressed("ui_left")  : vect.x =-movement_speed
+		vect.x = movement_speed * x_vector_state
+	else: vect.x = movement_speed * direction
 		
 	
 	vect = move_and_slide(vect + gravity, Vector2.UP)
@@ -59,9 +55,9 @@ func physics():
 func anim():
 
 	if Input.is_action_pressed("ui_right") and Input.is_action_pressed("ui_left"):
-		$AnimatedSprite.flip_h = !x_vector_state
+		$AnimatedSprite.flip_h = x_vector_state==-1
 	elif Input.is_action_pressed("ui_right") : $AnimatedSprite.flip_h = false
-	elif Input.is_action_pressed("ui_left")  : $AnimatedSprite.flip_h = true
+	else: $AnimatedSprite.flip_h = Input.is_action_pressed("ui_left")
 
 	if Input.is_action_pressed("jump") or !is_on_floor():
 		animPlayer.play("jump" if vect.y<0 else "fall")
@@ -77,22 +73,18 @@ func anim():
 
 func _on_splike_hit(body:Node):
 	if body == self:
+		set_physics_process(false)
+		animPlayer.play("death")
+		yield(get_tree().create_timer(animPlayer.get_animation("death").length), "timeout")
 		if lives > 0:
 			lives-=1
 			lives_report()
-			set_physics_process(false)
-			animPlayer.play("death")
-			yield(get_tree().create_timer(1.0), "timeout")
-			set_physics_process((true))
 			position = start_position
-			# queue_free()
-		elif lives == 0:
-			set_physics_process(false)
-			animPlayer.play("death")
-			yield(get_tree().create_timer(1.0), "timeout")
-			get_tree().reload_current_scene()
+			set_physics_process(true)
+		else: get_tree().reload_current_scene()
 
 
 
-func _on_Button_pressed():
+func start_game():
 	set_physics_process(true)
+	lives_report()
